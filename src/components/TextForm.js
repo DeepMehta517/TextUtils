@@ -20,7 +20,7 @@ export default function TextForm(props) {
     }
   };
   const handleExtraSpace = () => {
-    if (text.length > 0) {
+    if (text.length > 0 ) {
       let newtext = text.split(/[ ]+/);
       setText(newtext.join(" "));
       props.showalert("Deleted Extra Space", "success");
@@ -29,13 +29,34 @@ export default function TextForm(props) {
     }
   };
 
+  const ClearTExt = () => {
+    if (text.length > 0) {
+      let newtext = text.replace(text," ")
+      setText(newtext); 
+      props.showalert("Deleted Text", "success")
+    } else {
+      props.showalert("Field Can't Be Empty", "danger");
+    }
+  };
+
+  const CopyText = () => {
+    if (text.length > 0) {
+      navigator.clipboard.writeText(text)
+      props.showalert("Text Copied", "success")
+    } else {
+      props.showalert("Field Can't Be Empty", "danger");
+    }
+  };
+
+  
+
   const handleOnChange = (event) => {
     setText(event.target.value);
   };
   const [text, setText] = useState("");
   return (
     <>
-      <div className="container">
+      <div className="container my-3">
         <div className="mb-3">
           <h1 style={{ color: props.mode === "dark" ? "white" : "black" }}>
             {" "}
@@ -50,14 +71,20 @@ export default function TextForm(props) {
             rows="10"
           ></textarea>
         </div>
-        <button className="btn btn-primary mx-2" onClick={handleUPPERClick}>
+        <button className="btn btn-primary mx-2 my-2" onClick={handleUPPERClick}>
           Convert to UPPERCASE
         </button>
-        <button className="btn btn-primary mx-2" onClick={handleLowerClick}>
+        <button className="btn btn-primary mx-2 my-2" onClick={handleLowerClick}>
           Convert to LOWERCASE
         </button>
-        <button className="btn btn-primary mx-2" onClick={handleExtraSpace}>
+        <button className="btn btn-primary mx-2 my-2" onClick={handleExtraSpace}>
           Remove Extra Space
+        </button>
+        <button className="btn btn-primary mx-2 my-2" onClick={ClearTExt}>
+          Clear Text
+        </button>
+        <button className="btn btn-primary mx-2 my-2" onClick={CopyText}>
+          Copy Text
         </button>
       </div>
 
@@ -68,14 +95,14 @@ export default function TextForm(props) {
         <h2>Your text Summary</h2>
         <p>
           {" "}
-          {text.split(" ").length} words and {text.length} characters
+          {text.split(/\s+/).filter((element)=>{return element.length!==0}).length} words and {text.length} characters
         </p>
-        <p>{0.008 * text.split("   ").length} Minutes Read</p>
+        <p>{0.008 * text.split(" ").filter((element)=>{return element.length!==0}).length} Minutes Read</p>
         <h2>Preview</h2>
         <p>
           {text.length > 0
             ? text
-            : "Enter something in a box to preview it here!"}
+            : "Nothing to preview"}
         </p>
       </div>
     </>

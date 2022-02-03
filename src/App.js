@@ -6,6 +6,8 @@ import Navbar from "./components/Navbar";
 import TextForm from "./components/TextForm";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
+// Deployed on github failed due to routes (Read Documents)
+
 function App() {
   const [mode, setMode] = useState("light");
   const [alert, setalert] = useState(null);
@@ -46,7 +48,7 @@ function App() {
       <Alerts alert={alert} />
         <Switch>
           <Route exact path="/about">
-            <About />
+            <About mode={mode}/>
           </Route>
           <Route exact path="/">
             <TextForm
